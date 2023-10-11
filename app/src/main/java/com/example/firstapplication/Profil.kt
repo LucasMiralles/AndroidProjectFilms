@@ -1,9 +1,13 @@
 package com.example.firstapplication
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,164 +28,128 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+
 
 @Composable
-fun Profil(navController: NavController,
-           windowClass: WindowSizeClass) {
+fun Profil(
+    navController: NavController,
+    windowClass: WindowSizeClass
+) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact ->
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.photo_identite),
-                    contentDescription = "Moi",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(300.dp)
-                        .clip(CircleShape)
-                        .padding(10.dp)
-
-                )
-
-                Text(
-                    text = "Lucas Miralles",
-                    fontWeight = FontWeight.Bold, // Mettez en gras
-                    fontSize = 40.sp, // Taille de police personnalisée
-                    color = Color.Black, // Couleur du texte
-                    modifier = Modifier.padding(10.dp)
-                )
-                Text(
-                    text = "Élève Ingénieur ISIS - FIE4",
-                    fontSize = 25.sp, // Taille de police personnalisée
-                    color = Color.Black, // Couleur du texte
-                    modifier = Modifier.padding(10.dp)
-                )
+                MyPicture()
+                Description()
                 Spacer(modifier = Modifier.height(30.dp))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.gmail),
-                            contentDescription = "Mail",
-                            modifier = Modifier
-                                .size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "lucas.miralles09@gmail.com",
-                            fontSize = 20.sp,
-                            color = Color.Black,
-                        )
-                    }
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.linkedin),
-                            contentDescription = "linkedin",
-                            modifier = Modifier
-                                .size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "www.linkedin.com/in/lucas-miralles",
-                            fontSize = 20.sp,
-                            color = Color.Black,
-                        )
-                    }
-                }
+                Contact()
                 Spacer(modifier = Modifier.height(20.dp))
-
-                Button(onClick = { /*TODO*/ }) {
-                    Text(text = "Démarrer")
-                }
+                MyButton(navController = navController)
             }
 
         else -> {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(id = R.drawable.photo_identite),
-                        contentDescription = "Moi",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(200.dp)
-                            .clip(CircleShape)
-                            .padding(10.dp)
-
-                    )
-
-                    Text(
-                        text = "Lucas Miralles",
-                        fontWeight = FontWeight.Bold, // Mettez en gras
-                        fontSize = 40.sp, // Taille de police personnalisée
-                        color = Color.Black, // Couleur du texte
-                        modifier = Modifier.padding(10.dp)
-                    )
-                    Text(
-                        text = "Élève Ingénieur ISIS - FIE4",
-                        fontSize = 25.sp, // Taille de police personnalisée
-                        color = Color.Black, // Couleur du texte
-                        modifier = Modifier.padding(10.dp)
-                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    MyPicture()
+                    Description()
                 }
                 Spacer(modifier = Modifier.height(30.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(horizontal = 30.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.gmail),
-                            contentDescription = "Mail",
-                            modifier = Modifier
-                                .size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "lucas.miralles09@gmail.com",
-                            fontSize = 20.sp,
-                            color = Color.Black,
-                        )
-                    }
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.linkedin),
-                            contentDescription = "linkedin",
-                            modifier = Modifier
-                                .size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "www.linkedin.com/in/lucas-miralles",
-                            fontSize = 20.sp,
-                            color = Color.Black,
-                        )
-
-
-                    }
+                    Contact()
                     Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "Démarrer")
-                    }
+                    MyButton(navController = navController)
                 }
-
             }
         }
+    }
+}
+
+
+@Composable
+fun MyPicture() {
+    Image(
+        painter = painterResource(R.drawable.me),
+        contentDescription = "Moi",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(200.dp)
+            .clip(CircleShape)
+    )
+}
+
+@Composable
+fun Description() {
+    Text(
+        text = "Lucas Miralles",
+        fontWeight = FontWeight.Bold, // Mettez en gras
+        fontSize = 40.sp, // Taille de police personnalisée
+        color = Color.Black, // Couleur du texte
+        modifier = Modifier.padding(10.dp)
+    )
+    Text(
+        text = "Élève Ingénieur ISIS - FIE4",
+        fontSize = 25.sp, // Taille de police personnalisée
+        color = Color.Black, // Couleur du texte
+        modifier = Modifier.padding(10.dp)
+    )
+}
+
+@Composable
+fun Contact() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.gmail),
+                contentDescription = "Mail",
+                modifier = Modifier
+                    .size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "lucas.miralles09@gmail.com",
+                fontSize = 20.sp,
+                color = Color.Black,
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.linkedin),
+                contentDescription = "linkedin",
+                modifier = Modifier
+                    .size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "www.linkedin.com/in/lucas-miralles",
+                fontSize = 20.sp,
+                color = Color.Black,
+            )
+        }
+    }
+}
+
+@Composable
+fun MyButton(navController: NavController) {
+    Button(onClick = { navController.navigate("films") }) {
+        Text(text = "Démarrer")
     }
 }
