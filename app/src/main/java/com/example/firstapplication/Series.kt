@@ -29,7 +29,7 @@ import coil.compose.rememberImagePainter
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun FilmScreen(navController: NavController) {
+fun SerieScreen(navController: NavController) {
     val mainViewModel: MainViewModel = viewModel()
 
     Scaffold(
@@ -41,25 +41,25 @@ fun FilmScreen(navController: NavController) {
         }
     ) {
         val modifier = Modifier.padding(top = 60.dp, bottom = 60.dp)
-        Films(navController, mainViewModel, modifier = modifier)
+        Series(navController, mainViewModel, modifier = modifier)
     }
 }
 
 
 @Composable
-fun Films(
+fun Series(
     navController: NavController, viewModel: MainViewModel, modifier: Modifier
 ) {
 
-    val movies by viewModel.movies.collectAsState()
+    val series by viewModel.series.collectAsState()
 
-    if (movies.isEmpty()) {
-        viewModel.getTrendingMovies()
+    if (series.isEmpty()) {
+        viewModel.getTrendingSeries()
     }
 
-    if (movies.isNotEmpty()) {
+    if (series.isNotEmpty()) {
         LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = modifier) {
-            items(movies) { movie ->
+            items(series) { serie ->
                 /*  FloatingActionButton(
                       onClick = {/*navController.navigate("DetailMovie/${movie.id}")*/ },
                       modifier = Modifier
@@ -82,24 +82,24 @@ fun Films(
                         .fillMaxSize()
                         .padding(10.dp) // Ajoutez un espace à l'intérieur de la carte
                 ) {
-                    // Image du film
+                    // Image de la série
                     Image(
                         painter = rememberImagePainter(
-                            data = "https://image.tmdb.org/t/p/w780" + movie.poster_path,
+                            data = "https://image.tmdb.org/t/p/w780" + serie.poster_path,
                             builder = {
                                 crossfade(true)
                                 size(350, 400)
                             }
                         ),
-                        contentDescription = "Image film ${movie.title}",
+                        contentDescription = "Image serie ${serie.name}",
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp) // Ajustez la hauteur de l'image
                     )
 
-                    // Titre du film
+                    // Titre de la série
                     Text(
-                        text = movie.title,
+                        text = serie.name,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         modifier = Modifier

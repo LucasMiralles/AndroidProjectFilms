@@ -38,11 +38,11 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("films") {
                             // Composable for Films screen
-                            Films(navController, windowClass, viewModel)
+                            FilmScreen(navController)
                         }
-                        composable("screen") {
-                            // Composable for Screen screen
-                            ScreenContent()
+                        composable("series") {
+                            // Composable for Films screen
+                            SerieScreen(navController)
                         }
                     }
 

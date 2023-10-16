@@ -5,5 +5,8 @@ import retrofit2.http.Query
 
 interface Tmdb {
     @GET("trending/movie/week")
-    suspend fun getTrendingMovies(@Query("api_key") apikey : String): Films
+    suspend fun getTrendingMovies(@Query("api_key") apikey : String, @Query("language") language: String): Films
+
+    @GET("trending/tv/week")
+    suspend fun getTrendingSeries(@Query("api_key") apikey : String, @Query("language") language: String): Series
 }
