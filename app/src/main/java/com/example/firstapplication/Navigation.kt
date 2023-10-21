@@ -1,5 +1,6 @@
 package com.example.firstapplication
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +42,7 @@ fun TopNavBar(navController: NavController) {
     var searchText by remember { mutableStateOf("") } // État pour stocker le texte de recherche
     val imeAction = rememberUpdatedState(ImeAction.Done)
     val keyboardController = LocalSoftwareKeyboardController.current
-    
+
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color(0xFFCC1228),
@@ -49,7 +50,7 @@ fun TopNavBar(navController: NavController) {
         ),
         title = {
             Text(
-                text= if (searchActive) "Recherchez des films et des séries" else "Top app bar",
+                text = if (searchActive) "Recherchez des films et des séries" else "Top app bar",
                 modifier = Modifier.padding(start = 16.dp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -59,7 +60,7 @@ fun TopNavBar(navController: NavController) {
 
         },
         navigationIcon = {
-            IconButton(onClick = { navController.navigate("profile") }) {
+            IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Arrow back",
@@ -91,60 +92,70 @@ fun BottomNavBar(navController: NavController) {
             ) {
                 Spacer(modifier = Modifier.padding(start = 35.dp)) // Espace à gauche
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.battant_blanc),
-                        contentDescription = "Movies",
-                        modifier = Modifier
-                            .size(30.dp)
-                    )
-                    Text(
-                        "Films",
-                        color = Color.White
-                    )
+                IconButton(onClick = { navController.navigate("films") }) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.battant_blanc),
+                            tint = Color.White,
+                            contentDescription = "Movies",
+                            modifier = Modifier
+                                .size(30.dp)
+                        )
+                        Text(
+                            "Films",
+                            color = Color.White
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.weight(1f)) // Espace égal au milieu
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.television_blanche),
-                        contentDescription = "Series",
-                        modifier = Modifier
-                            .size(30.dp)
-                    )
-                    Text(
-                        "Séries",
-                        color = Color.White
-                    )
+                IconButton(onClick = { navController.navigate("series") }) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.television_blanche),
+                            tint = Color.White,
+                            contentDescription = "Series",
+                            modifier = Modifier
+                                .size(30.dp)
+                        )
+                        Text(
+                            "Séries",
+                            color = Color.White
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.weight(1f)) // Espace égal entre les images
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
-                        contentDescription = "Movies",
-                        modifier = Modifier
-                            .size(30.dp)
-                    )
-                    Text(
-                        "Acteurs",
-                        color = Color.White
-                    )
+                IconButton(onClick = { navController.navigate("actors") }) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_person_24),
+                            tint = Color.White,
+                            contentDescription = "Movies",
+                            modifier = Modifier
+                                .size(30.dp)
+                        )
+                        Text(
+                            "Acteurs",
+                            color = Color.White
+                        )
+                    }
                 }
-
                 Spacer(modifier = Modifier.padding(end = 35.dp)) // Espace à droite
             }
+
         }
     )
 }
+
 
 
 

@@ -44,6 +44,16 @@ class MainActivity : ComponentActivity() {
                             // Composable for Films screen
                             SerieScreen(navController)
                         }
+                        composable("actors") {
+                            // Composable for Films screen
+                            ActorScreen(navController)
+                        }
+                        composable("filmDetails/{movieID}") {
+                                backStackEntry ->
+                            val movieId = backStackEntry.arguments?.getString("movieId")?: ""
+                                // Composable for Films Details screen
+                            MovieDetails(navController, movieId)
+                        }
                     }
 
                 }

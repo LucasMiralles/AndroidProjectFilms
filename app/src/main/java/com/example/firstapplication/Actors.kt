@@ -26,12 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import java.util.Locale
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SerieScreen(navController: NavController) {
+fun ActorScreen(navController: NavController) {
     val mainViewModel: MainViewModel = viewModel()
 
     Scaffold(
@@ -43,25 +42,25 @@ fun SerieScreen(navController: NavController) {
         }
     ) {
         val modifier = Modifier.padding(top = 60.dp, bottom = 60.dp)
-        Series(navController, mainViewModel, modifier = modifier)
+        Actors(navController, mainViewModel, modifier = modifier)
     }
 }
 
 
 @Composable
-fun Series(
+fun Actors(
     navController: NavController, viewModel: MainViewModel, modifier: Modifier
 ) {
 
-    val series by viewModel.series.collectAsState()
+    val actors by viewModel.actors.collectAsState()
 
-    if (series.isEmpty()) {
-        viewModel.getTrendingSeries()
+    if (actors.isEmpty()) {
+        viewModel.getTrendingActors()
     }
 
-    if (series.isNotEmpty()) {
+    if (actors.isNotEmpty()) {
         LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = modifier) {
-            items(series) { serie ->
+            items(actors) { actor ->
                 /*  FloatingActionButton(
                       onClick = {/*navController.navigate("DetailMovie/${movie.id}")*/ },
                       modifier = Modifier
@@ -76,7 +75,7 @@ fun Series(
                 modifier = Modifier
                     .fillMaxWidth() // Utilisez toute la largeur de la colonne
                     .padding(10.dp) // Ajoutez un espace autour de chaque carte
-                    .height(385.dp) // Définissez la hauteur de la carte
+                    .height(325.dp) // Définissez la hauteur de la carte
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,34 +83,30 @@ fun Series(
                         .fillMaxSize()
                         .padding(10.dp) // Ajoutez un espace à l'intérieur de la carte
                 ) {
-                    // Image de la série
+                    // Photo de l'acteur
                     Image(
                         painter = rememberImagePainter(
-                            data = "https://image.tmdb.org/t/p/w780" + serie.poster_path,
+                            data = "https://image.tmdb.org/t/p/w780" + actor.profile_path,
                             builder = {
                                 crossfade(true)
                                 size(350, 400)
                             }
                         ),
-                        contentDescription = "Image serie ${serie.name}",
+                        contentDescription = "Image serie ${actor.name}",
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp) // Ajustez la hauteur de l'image
                     )
 
-                    // Titre de la série
+                    // Nom de l'acteur
                     Text(
-                        text = serie.name,
+                        text = actor.name,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         modifier = Modifier
-                            .padding(top = 10.dp)
+                            .padding(top = 20.dp)
                             .fillMaxWidth()
-                    )
-                    Text(text = formatDate(serie.first_air_date, "yyyy-MM-dd", "dd MMM yyyy", Locale.FRANCE),
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 10.dp)
                     )
                 }
             }
@@ -119,6 +114,3 @@ fun Series(
         }
     }
 }
-
-
-
