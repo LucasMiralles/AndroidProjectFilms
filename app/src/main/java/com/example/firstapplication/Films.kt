@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.Surface
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,9 +48,16 @@ fun FilmScreen(navController: NavController) {
         bottomBar = {
             BottomNavBar(navController)
         }
-    ) {
-        val modifier = Modifier.padding(top = 60.dp, bottom = 60.dp)
-        Films(navController, mainViewModel, modifier = modifier)
+
+    )
+    {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color(0xFFEE9898),
+        ) {
+            val modifier = Modifier.padding(top = 60.dp, bottom = 60.dp)
+            Films(navController, mainViewModel, modifier = modifier)
+        }
     }
 }
 
@@ -67,23 +75,15 @@ fun Films(
     if (movies.isNotEmpty()) {
         LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = modifier) {
             items(movies) { movie ->
-                /*  FloatingActionButton(
-                      onClick = {/*navController.navigate("DetailMovie/${movie.id}")*/ },
-                      modifier = Modifier
-                          .width(350.dp)
-                          .height(350.dp)
-                          .padding(20.dp),
-                      containerColor = Color.White,
-                  )*/ElevatedCard(
+                ElevatedCard(
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 6.dp
                 ),
-               // onclick= { navController.navigate("DetailMovie/${movie.id}") },
                 modifier = Modifier
                     .fillMaxWidth() // Utilisez toute la largeur de la colonne
                     .padding(10.dp) // Ajoutez un espace autour de chaque carte
                     .height(385.dp) // Définissez la hauteur de la carte
-                    .clickable { navController.navigate("filmDetails/{movieId}") }
+                    .clickable { navController.navigate("MovieDetails/${movie.id}") }
             ) {
                 Box (
                     modifier = Modifier

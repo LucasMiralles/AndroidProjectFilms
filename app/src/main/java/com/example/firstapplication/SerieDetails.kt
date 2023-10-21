@@ -37,14 +37,14 @@ import java.util.Locale
 
 
 @Composable
-fun MovieDetails(navController: NavController, movieID: String) {
+fun SerieDetails(navController: NavController, serieID: String) {
     val mainViewModel: MainViewModel = viewModel()
-    val movieDetails by mainViewModel.movieDetails.collectAsState()
+    val serieDetails by mainViewModel.serieDetails.collectAsState()
 
-    if (movieDetails.title.isEmpty()) {
-        mainViewModel.getFilmDetails()
+    if (serieDetails.name.isEmpty()) {
+        mainViewModel.getSerieDetails()
     }
-    if (movieDetails.title.isNotEmpty()) {
+    if (serieDetails.name.isNotEmpty()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -57,12 +57,12 @@ fun MovieDetails(navController: NavController, movieID: String) {
                 ) {
                     Image(
                         painter = rememberImagePainter(
-                            data = "https://image.tmdb.org/t/p/w1280" + movieDetails.backdrop_path,
+                            data = "https://image.tmdb.org/t/p/w1280" + serieDetails.backdrop_path,
                             builder = {
                                 crossfade(true)
                                 size(700, 700)
                             }),
-                        contentDescription = "Image film ${movieDetails.title}",
+                        contentDescription = "Image série ${serieDetails.name}",
                         contentScale = ContentScale.Crop, // Remplit la Box sans déborder
                         modifier = Modifier.fillMaxSize()
                     )
@@ -75,12 +75,12 @@ fun MovieDetails(navController: NavController, movieID: String) {
                 ) {
                     Image(
                         painter = rememberImagePainter(
-                            data = "https://image.tmdb.org/t/p/w1280" + movieDetails.poster_path,
+                            data = "https://image.tmdb.org/t/p/w1280" + serieDetails.poster_path,
                             builder = {
                                 crossfade(true)
                                 size(400, 400)
                             }),
-                        contentDescription = "Image film ${movieDetails.title}",
+                        contentDescription = "Image série ${serieDetails.name}",
                         modifier = Modifier
                             .offset(y = (-30).dp)
                             .padding(start = 25.dp, end = 10.dp, top = 5.dp)
@@ -92,7 +92,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
                         modifier = Modifier.padding(start = 20.dp, end = 15.dp)
                     ) {
                         Text(
-                            text = movieDetails.title,
+                            text = serieDetails.name,
                             textAlign = TextAlign.Center,
                             fontWeight = FontWeight.Bold,
                             fontSize = 25.sp,
@@ -115,7 +115,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
                             ) {
                                 Text(
                                     text = formatDate(
-                                        movieDetails.release_date,
+                                        serieDetails.first_air_date,
                                         "yyyy-dd-MM",
                                         "dd MMM yyyy",
                                         Locale.FRANCE
@@ -125,7 +125,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
                                 )
 
                                 Text(
-                                    text = getGenres(movieDetails.genres),
+                                    text = getGenres(serieDetails.genres),
                                     fontSize = 18.sp,
                                     fontStyle = FontStyle.Italic,
                                     textAlign = TextAlign.Center
@@ -149,13 +149,13 @@ fun MovieDetails(navController: NavController, movieID: String) {
                         modifier = Modifier.padding(top = 15.dp, end = 15.dp)
                     )
                     Text(
-                        text = movieDetails.overview,
+                        text = serieDetails.overview,
                         textAlign = TextAlign.Justify,
                         modifier = Modifier.padding(top = 15.dp, end = 15.dp),
                     )
                 }
             }
-            if (movieDetails.credits.cast.isNotEmpty()) {
+            if (serieDetails.credits.cast.isNotEmpty()) {
                 item {
                     Text(
                         text = "Têtes d'affiches",
@@ -170,7 +170,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
                         columns = GridCells.Fixed(2), // 2 colonnes
                     ) {*/
 
-                items(movieDetails.credits.cast.take(10)) { cast ->
+                items(serieDetails.credits.cast.take(10)) { cast ->
                     FloatingActionButton(
                         onClick = { navController.navigate("DetailPerson/${cast.id}") },
                         modifier = Modifier.padding(20.dp),
@@ -215,11 +215,3 @@ fun MovieDetails(navController: NavController, movieID: String) {
     }
 }
 
-
-fun getGenres(genres: List<Genre>): String {
-    var genresString = ""
-    for (genre in genres) {
-        genresString += genre.name + " & "
-    }
-    return genresString.dropLast(2)
-}

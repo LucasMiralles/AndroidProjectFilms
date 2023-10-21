@@ -87,6 +87,7 @@ dependencies {
 
     // Play Services ML Kit pour la reconnaissance de texte
     implementation("com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Dépendances de test
     testImplementation("junit:junit:4.13.2")

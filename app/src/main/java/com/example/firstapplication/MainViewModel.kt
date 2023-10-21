@@ -13,6 +13,8 @@ class MainViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     val series = MutableStateFlow<List<Serie>>(listOf())
     val actors = MutableStateFlow<List<Actor>>(listOf())
     val movieDetails = MutableStateFlow<FilmDetails>(FilmDetails())
+    val serieDetails = MutableStateFlow<SerieDetails>(SerieDetails())
+    val actorDetails = MutableStateFlow<ActorDetails>(ActorDetails())
     private val movieID: String? = savedStateHandle["movieID"]
     private val serieID: String? = savedStateHandle["serieID"]
     private val actorID: String? = savedStateHandle["actorID"]
@@ -40,9 +42,19 @@ class MainViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             actors.value = service.getTrendingActors(apikey, "fr").results
         }
     }
-    fun getFilmDetails(movieID: String) {
+    fun getFilmDetails() {
         viewModelScope.launch {
-            movieDetails.value = service.getFilmDetails(movieID, apikey, "fr")
+            movieDetails.value = service.getFilmDetails(movieID?:"", apikey, "fr")
+        }
+    }
+    fun getSerieDetails() {
+        viewModelScope.launch {
+            serieDetails.value = service.getSerieDetails(serieID?:"", apikey, "fr")
+        }
+    }
+    fun getActorDetails() {
+        viewModelScope.launch {
+            actorDetails.value = service.getActorDetails(actorID?:"", apikey, "fr")
         }
     }
 }

@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     // Create a NavHost for navigation
                     NavHost(
                         navController = navController,
-                        startDestination = "profile"
+                        startDestination = "films"
                     ) {
                         composable("profile") {
                             // Composable for Profile screen
@@ -48,11 +48,23 @@ class MainActivity : ComponentActivity() {
                             // Composable for Films screen
                             ActorScreen(navController)
                         }
-                        composable("filmDetails/{movieID}") {
+                        composable("MovieDetails/{movieID}") {
                                 backStackEntry ->
                             val movieId = backStackEntry.arguments?.getString("movieId")?: ""
                                 // Composable for Films Details screen
                             MovieDetails(navController, movieId)
+                        }
+                        composable("SerieDetails/{serieID}") {
+                                backStackEntry ->
+                            val serieId = backStackEntry.arguments?.getString("serieId")?: ""
+                                // Composable for Series Details screen
+                            SerieDetails(navController, serieId)
+                        }
+                        composable("ActorDetails/{actorID}") {
+                                backStackEntry ->
+                            val actorId = backStackEntry.arguments?.getString("actorId")?: ""
+                                // Composable for Actors Details screen
+                            ActorDetails(navController, actorId)
                         }
                     }
 
