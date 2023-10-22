@@ -25,4 +25,10 @@ interface Tmdb {
 
     @GET("search/movie")
     suspend fun searchMovie(@Query("api_key") apikey : String, @Query("language") language: String, @Query("query") query: String): Films
+
+    @GET("search/tv")
+    suspend fun searchSerie(@Query("api_key") apikey : String, @Query("language") language: String, @Query("query") query: String): Series
+
+    @GET("search/person")
+    suspend fun searchActor(@Query("api_key") apikey : String, @Query("language") language: String, @Query("query") query: String): Actors
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomAppBar
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,52 +35,83 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavBar(navController: NavController) {
+    //val viewModel: MainViewModel by viewModels()
+    val mainViewModel: MainViewModel = viewModel()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     var searchActive by remember { mutableStateOf(false) } // État pour indiquer si la recherche est active
     var searchText by remember { mutableStateOf("") } // État pour stocker le texte de recherche
+    var searchBarVisible by remember { mutableStateOf(false) } // État pour indiquer si la barre de recherche est visible
     val imeAction = rememberUpdatedState(ImeAction.Done)
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFFCC1228),
-            titleContentColor = Color(0xFFFFFFFF),
-        ),
-        title = {
-            Text(
-                text = if (searchActive) "Recherchez des films et des séries" else "Top app bar",
-                modifier = Modifier.padding(start = 16.dp),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontSize = 25.sp,
-                color = Color.White,
-            )
+    if (!searchBarVisible) {
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color(0xFFCC1228),
+                titleContentColor = Color(0xFFFFFFFF),
+            ),
+            title = {
+                Text(
+                    text = "TV Time",
+                    modifier = Modifier.padding(start = 16.dp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 25.sp,
+                    color = Color.White,
+                )
 
+            },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Arrow back",
+                        tint = Color.White,
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            actions = {
+                IconButton(onClick = { searchBarVisible = true }) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Search",
+                        tint = Color.White,
+                    )
+                }
+            },
+        )
+    }else{
+        SearchBar(query = searchText,
+            onQueryChange = { searchText = it
         },
-        navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Arrow back",
-                    tint = Color.White,
-                )
+            onSearch = { if (currentDestination?.route == "films") {
+                mainViewModel.searchMovie(it)
             }
-        },
-        modifier = Modifier.fillMaxWidth(),
-        actions = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = "Search",
-                    tint = Color.White,
-                )
+            if (currentDestination?.route == "series") {
+                mainViewModel.searchSerie(it)
             }
-        },
-    )
+            if (currentDestination?.route == "actors") {
+                mainViewModel.searchActor(it)
+            }
+                searchActive = false
+                       },
+            active = searchActive,
+            onActiveChange = {
+                searchActive = it
+            },
+            modifier = Modifier.height(100.dp),
+            placeholder = { Text("Recherche...") }) {
+        }
+    }
 }
 
 @Composable
