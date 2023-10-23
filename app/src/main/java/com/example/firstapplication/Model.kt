@@ -25,7 +25,7 @@ data class Film(
     val vote_count: Int
 )
 
-    data class Series(
+data class Series(
     val page: Int,
     val results: List<Serie>,
     val total_pages: Int,
@@ -88,12 +88,6 @@ data class KnownFor(
     val vote_count: Int
 )
 
-/*data class FilmsDetails(
-    val page: Int = 0,
-    val results: List<FilmDetails> = listOf(),
-    val total_pages: Int = 0,
-    val total_results: Int = 0
-)*/
 
 data class FilmDetails(
     val adult: Boolean = false,
@@ -113,6 +107,7 @@ data class FilmDetails(
     val genres: List<Genre> = listOf(),
     val credits: Credits = Credits()
 )
+
 data class SerieDetails(
     val adult: Boolean = false,
     val backdrop_path: String = "",
@@ -131,6 +126,7 @@ data class SerieDetails(
     val genres: List<Genre> = listOf(),
     val credits: Credits = Credits()
 )
+
 data class KnownForActorInfosResult(
     val adult: Boolean = false,
     val backdrop_path: String = "",
@@ -152,6 +148,7 @@ data class KnownForActorInfosResult(
     val vote_average: Double = 0.0,
     val vote_count: Int = 0,
 )
+
 data class ActorDetails(
     val adult: Boolean = false,
     val also_known_as: List<String> = listOf(),
@@ -174,6 +171,7 @@ data class Genre(
     val id: Int,
     val name: String
 )
+
 data class Cast(
     val adult: Boolean,
     val cast_id: String,
@@ -193,6 +191,7 @@ data class Credits(
     val cast: List<Cast> = listOf(),
     val crew: List<Crew> = listOf()
 )
+
 data class Crew(
     val adult: Boolean,
     val credit_id: String,

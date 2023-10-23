@@ -32,13 +32,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -227,13 +225,13 @@ fun BottomNavBar(navController: NavController) {
 
 @Composable
 fun LeftNavBar(navController: NavController) {
-    Column( verticalArrangement = Arrangement.SpaceEvenly,
+    Column(
+        verticalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier
             .fillMaxHeight()
             .background(Color(0xFFCC1228))
             .padding(start = 10.dp, end = 10.dp)
     ) {
-       // Spacer(modifier = Modifier.height(16.dp)) // Espace en haut
 
         IconButton(onClick = { navController.navigate("films") }) {
             Column(
@@ -253,7 +251,6 @@ fun LeftNavBar(navController: NavController) {
             }
         }
 
-     //   Spacer(modifier = Modifier.height(16.dp)) // Espace entre les icônes
 
         IconButton(onClick = { navController.navigate("series") }) {
             Column(
@@ -273,7 +270,6 @@ fun LeftNavBar(navController: NavController) {
             }
         }
 
-      //  Spacer(modifier = Modifier.height(16.dp)) // Espace entre les icônes
 
         IconButton(onClick = { navController.navigate("actors") }) {
             Column(
@@ -293,7 +289,6 @@ fun LeftNavBar(navController: NavController) {
             }
         }
 
-       // Spacer(modifier = Modifier.weight(1f)) // Espace restant en bas
     }
 }
 
@@ -339,7 +334,7 @@ fun TopFloatNavBar(navController: NavController) {
                 onValueChange = { searchText = it },
                 modifier = Modifier
                     .height(60.dp)
-                    .padding(start = 80.dp, end = 16.dp, top =5.dp)
+                    .padding(start = 80.dp, end = 16.dp, top = 5.dp)
                     .clip(RoundedCornerShape(50.dp))
                     .fillMaxWidth(),
                 textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),

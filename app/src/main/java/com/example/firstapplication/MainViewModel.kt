@@ -32,41 +32,49 @@ class MainViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             movies.value = service.getTrendingMovies(apikey, "fr").results
         }
     }
+
     fun getTrendingSeries() {
         viewModelScope.launch {
             series.value = service.getTrendingSeries(apikey, "fr").results
         }
     }
+
     fun getTrendingActors() {
         viewModelScope.launch {
             actors.value = service.getTrendingActors(apikey, "fr").results
         }
     }
+
     fun getFilmDetails() {
         viewModelScope.launch {
-            movieDetails.value = service.getFilmDetails(movieID?:"", apikey, "fr")
+            movieDetails.value = service.getFilmDetails(movieID ?: "", apikey, "fr")
         }
     }
+
     fun getSerieDetails() {
         viewModelScope.launch {
-            serieDetails.value = service.getSerieDetails(serieID?:"", apikey, "fr")
+            serieDetails.value = service.getSerieDetails(serieID ?: "", apikey, "fr")
         }
     }
+
     fun getActorDetails() {
         viewModelScope.launch {
-            actorDetails.value = service.getActorDetails(actorID?:"", apikey, "fr")
+            actorDetails.value = service.getActorDetails(actorID ?: "", apikey, "fr")
         }
     }
+
     fun searchMovie(query: String) {
         viewModelScope.launch {
             movies.value = service.searchMovie(apikey, "fr", query).results
         }
     }
+
     fun searchSerie(query: String) {
         viewModelScope.launch {
             series.value = service.searchSerie(apikey, "fr", query).results
         }
     }
+
     fun searchActor(query: String) {
         viewModelScope.launch {
             actors.value = service.searchActor(apikey, "fr", query).results

@@ -1,12 +1,9 @@
 package com.example.firstapplication
 
 import android.annotation.SuppressLint
-import java.text.SimpleDateFormat
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,10 +14,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Surface
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -32,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import java.util.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -87,6 +84,7 @@ fun FilmScreen(navController: NavController, windowclass: WindowSizeClass) {
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun Films(
     navController: NavController, viewModel: MainViewModel, nbColumns: Int = 2, modifier: Modifier
@@ -117,7 +115,6 @@ fun Films(
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            // verticalArrangement = Arrangement.Center,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(10.dp) // Ajoutez un espace à l'intérieur de la carte
@@ -137,7 +134,6 @@ fun Films(
                                     .height(250.dp) // Ajustez la hauteur de l'image
                             )
 
-                            // Titre du film
                             Text(
                                 text = movie.title,
                                 textAlign = TextAlign.Center,

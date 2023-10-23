@@ -109,7 +109,6 @@ fun Series(
                             .fillMaxSize()
                             .padding(10.dp) // Ajoutez un espace à l'intérieur de la carte
                     ) {
-                        // Image de la série
                         Image(
                             painter = rememberImagePainter(
                                 data = "https://image.tmdb.org/t/p/w780" + serie.poster_path,
@@ -124,7 +123,6 @@ fun Series(
                                 .height(250.dp) // Ajustez la hauteur de l'image
                         )
 
-                        // Titre de la série
                         Text(
                             text = serie.name,
                             textAlign = TextAlign.Center,

@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Text
@@ -45,12 +48,15 @@ fun MovieDetails(navController: NavController, movieID: String) {
         mainViewModel.getFilmDetails()
     }
     if (movieDetails.title.isNotEmpty()) {
-        LazyColumn(
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFEE9898))
         ) {
-            item {
+            item(span = {
+                GridItemSpan(2)
+            }) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -68,7 +74,9 @@ fun MovieDetails(navController: NavController, movieID: String) {
                     )
                 }
             }
-            item {
+            item(span = {
+                GridItemSpan(2)
+            }) {
                 Row(
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.Center
@@ -137,7 +145,9 @@ fun MovieDetails(navController: NavController, movieID: String) {
                 }
             }
 
-            item {
+            item(span = {
+                GridItemSpan(2)
+            }) {
                 Column(
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier.padding(start = 10.dp)
@@ -157,11 +167,13 @@ fun MovieDetails(navController: NavController, movieID: String) {
             }
             if (movieDetails.credits.cast.isNotEmpty()) {
 
-                    item {
-                        Column(
-                            horizontalAlignment = Alignment.Start,
-                            modifier = Modifier.padding(start = 10.dp)
-                        ) {
+                item(span = {
+                    GridItemSpan(2)
+                }) {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier.padding(start = 10.dp)
+                    ) {
                         Text(
                             text = "Têtes d'affiches",
                             color = Color.Black,
@@ -172,18 +184,17 @@ fun MovieDetails(navController: NavController, movieID: String) {
                     }
                 }
 
-               /*      LazyVerticalGrid(
-                        columns = GridCells.Fixed(2), // 2 colonnes
-                    ) */
+
 
                 items(movieDetails.credits.cast.take(10)) { cast ->
                     FloatingActionButton(
                         onClick = { navController.navigate("ActorDetails/${cast.id}") },
-                        modifier = Modifier.padding(20.dp),
-                        containerColor = Color.White,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .height(250.dp),
+                        containerColor = Color.White
                     ) {
                         Column(
-                            verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.fillMaxSize()
                         ) {
@@ -202,6 +213,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
                             )
                             Text(
                                 text = cast.name,
+                                textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black,
                                 fontSize = 20.sp,
@@ -209,6 +221,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
                             )
                             Text(
                                 text = cast.character,
+                                textAlign = TextAlign.Center,
                                 color = Color.Black,
                                 fontSize = 18.sp,
                                 modifier = Modifier.padding(top = 15.dp)
@@ -223,9 +236,5 @@ fun MovieDetails(navController: NavController, movieID: String) {
 
 
 fun getGenres(genres: List<Genre>): String {
-    var genresString = ""
-    for (genre in genres) {
-        genresString += genre.name + ", "
-    }
-    return genresString.dropLast(2)
+    return genres.joinToString(", ") { it.name }
 }

@@ -121,8 +121,6 @@ fun Actors(
                                 .fillMaxWidth()
                                 .height(250.dp) // Ajustez la hauteur de l'image
                         )
-
-                        // Nom de l'acteur
                         Text(
                             text = actor.name,
                             textAlign = TextAlign.Center,

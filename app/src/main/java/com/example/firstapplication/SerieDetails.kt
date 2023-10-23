@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Text
@@ -32,10 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import java.util.Locale
 
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun SerieDetails(navController: NavController, serieID: String) {
     val mainViewModel: MainViewModel = viewModel()
@@ -45,12 +50,15 @@ fun SerieDetails(navController: NavController, serieID: String) {
         mainViewModel.getSerieDetails()
     }
     if (serieDetails.name.isNotEmpty()) {
-        LazyColumn(
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFEE9898))
         ) {
-            item {
+            item(span = {
+                GridItemSpan(2)
+            }) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -68,7 +76,9 @@ fun SerieDetails(navController: NavController, serieID: String) {
                     )
                 }
             }
-            item {
+            item(span = {
+                GridItemSpan(2)
+            }) {
                 Row(
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.Center
@@ -137,7 +147,9 @@ fun SerieDetails(navController: NavController, serieID: String) {
                 }
             }
 
-            item {
+            item(span = {
+                GridItemSpan(2)
+            }) {
                 Column(
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier.padding(start = 10.dp)
@@ -156,28 +168,32 @@ fun SerieDetails(navController: NavController, serieID: String) {
                 }
             }
             if (serieDetails.credits.cast.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Têtes d'affiches",
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(top = 15.dp, end = 15.dp)
-                    )
+                item(span = {
+                    GridItemSpan(2)
+                }) {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier.padding(start = 10.dp)
+                    ) {
+                        Text(
+                            text = "Têtes d'affiches",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(top = 15.dp, end = 15.dp)
+                        )
+                    }
                 }
-
-                /*      LazyVerticalGrid(
-                        columns = GridCells.Fixed(2), // 2 colonnes
-                    ) {*/
 
                 items(serieDetails.credits.cast.take(10)) { cast ->
                     FloatingActionButton(
                         onClick = { navController.navigate("ActorDetails/${cast.id}") },
-                        modifier = Modifier.padding(20.dp),
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .height(250.dp),
                         containerColor = Color.White,
                     ) {
                         Column(
-                            verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.fillMaxSize()
                         ) {
@@ -196,6 +212,7 @@ fun SerieDetails(navController: NavController, serieID: String) {
                             )
                             Text(
                                 text = cast.name,
+                                textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black,
                                 fontSize = 20.sp,
@@ -203,6 +220,7 @@ fun SerieDetails(navController: NavController, serieID: String) {
                             )
                             Text(
                                 text = cast.character,
+                                textAlign = TextAlign.Center,
                                 color = Color.Black,
                                 fontSize = 18.sp,
                                 modifier = Modifier.padding(top = 15.dp)

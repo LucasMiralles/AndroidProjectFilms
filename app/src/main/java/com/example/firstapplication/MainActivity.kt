@@ -18,61 +18,55 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val viewModel : MainViewModel by viewModels()
         setContent {
             FirstApplicationTheme {
-                    val windowClass = calculateWindowSizeClass(activity = this)
+                val windowClass = calculateWindowSizeClass(activity = this)
 
-                    // Initialize NavHostController
-                    val navController = rememberNavController()
+                // Initialize NavHostController
+                val navController = rememberNavController()
 
-                    // Create a NavHost for navigation
-                    NavHost(
-                        navController = navController,
-                        startDestination = "films"
-                    ) {
-                        composable("profile") {
-                            // Composable for Profile screen
-                            Profil(navController, windowClass)
-                        }
-                        composable("films") {
-                            // Composable for Films screen
-                            FilmScreen(navController, windowClass)
-                        }
-                        composable("series") {
-                            // Composable for Films screen
-                            SerieScreen(navController, windowClass)
-                        }
-                        composable("actors") {
-                            // Composable for Films screen
-                            ActorScreen(navController, windowClass)
-                        }
-                        composable("MovieDetails/{movieID}") {
-                                backStackEntry ->
-                            val movieId = backStackEntry.arguments?.getString("movieId")?: ""
-                                // Composable for Films Details screen
-                            MovieDetails(navController, movieId)
-                        }
-                        composable("SerieDetails/{serieID}") {
-                                backStackEntry ->
-                            val serieId = backStackEntry.arguments?.getString("serieId")?: ""
-                                // Composable for Series Details screen
-                            SerieDetails(navController, serieId)
-                        }
-                        composable("ActorDetails/{actorID}") {
-                                backStackEntry ->
-                            val actorId = backStackEntry.arguments?.getString("actorId")?: ""
-                                // Composable for Actors Details screen
-                            ActorDetails(navController, actorId)
-                        }
+                // Create a NavHost for navigation
+                NavHost(
+                    navController = navController,
+                    startDestination = "profile"
+                ) {
+                    composable("profile") {
+                        // Composable for Profile screen
+                        Profil(navController, windowClass)
                     }
-
+                    composable("films") {
+                        // Composable for Films screen
+                        FilmScreen(navController, windowClass)
+                    }
+                    composable("series") {
+                        // Composable for Series screen
+                        SerieScreen(navController, windowClass)
+                    }
+                    composable("actors") {
+                        // Composable for Actors screen
+                        ActorScreen(navController, windowClass)
+                    }
+                    composable("MovieDetails/{movieID}") { backStackEntry ->
+                        val movieId = backStackEntry.arguments?.getString("movieId") ?: ""
+                        // Composable for Films Details screen
+                        MovieDetails(navController, movieId)
+                    }
+                    composable("SerieDetails/{serieID}") { backStackEntry ->
+                        val serieId = backStackEntry.arguments?.getString("serieId") ?: ""
+                        // Composable for Series Details screen
+                        SerieDetails(navController, serieId)
+                    }
+                    composable("ActorDetails/{actorID}") { backStackEntry ->
+                        val actorId = backStackEntry.arguments?.getString("actorId") ?: ""
+                        // Composable for Actors Details screen
+                        ActorDetails(navController, actorId)
+                    }
                 }
+
             }
         }
     }
-
+}
 
 
 @Preview(showBackground = true)
