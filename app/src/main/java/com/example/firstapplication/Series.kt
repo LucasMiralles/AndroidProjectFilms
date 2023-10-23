@@ -16,6 +16,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,31 +35,53 @@ import java.util.Locale
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SerieScreen(navController: NavController) {
+fun SerieScreen(navController: NavController, windowclass: WindowSizeClass) {
     val mainViewModel: MainViewModel = viewModel()
+    when (windowclass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
 
-    Scaffold(
-        topBar = {
-            TopNavBar(navController)
-        },
-        bottomBar = {
-            BottomNavBar(navController)
+            Scaffold(
+                topBar = {
+                    TopNavBar(navController)
+                },
+                bottomBar = {
+                    BottomNavBar(navController)
+                }
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color(0xFFEE9898),
+                ) {
+                    val modifier = Modifier.padding(top = 60.dp, bottom = 60.dp)
+                    Series(navController, mainViewModel, modifier = modifier)
+                }
+            }
         }
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color(0xFFEE9898),
-        ) {
-            val modifier = Modifier.padding(top = 60.dp, bottom = 60.dp)
-            Series(navController, mainViewModel, modifier = modifier)
+
+        else -> {
+            Scaffold(
+                topBar = { TopFloatNavBar(navController) },
+                bottomBar = {
+                    LeftNavBar(navController)
+                }
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color(0xFFEE9898),
+                ) {
+                    val modifier = Modifier.padding(start = 65.dp)
+                    Series(navController, mainViewModel, nbColumns = 4, modifier = modifier)
+                }
+            }
         }
+
     }
 }
 
 
 @Composable
 fun Series(
-    navController: NavController, viewModel: MainViewModel, modifier: Modifier
+    navController: NavController, viewModel: MainViewModel, nbColumns: Int = 2, modifier: Modifier
 ) {
 
     val series by viewModel.series.collectAsState()
@@ -67,7 +91,7 @@ fun Series(
     }
 
     if (series.isNotEmpty()) {
-        LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = modifier) {
+        LazyVerticalGrid(columns = GridCells.Fixed(nbColumns), modifier = modifier) {
             items(series) { serie ->
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(

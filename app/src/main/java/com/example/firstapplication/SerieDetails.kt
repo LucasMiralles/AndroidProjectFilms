@@ -172,7 +172,7 @@ fun SerieDetails(navController: NavController, serieID: String) {
 
                 items(serieDetails.credits.cast.take(10)) { cast ->
                     FloatingActionButton(
-                        onClick = { navController.navigate("DetailPerson/${cast.id}") },
+                        onClick = { navController.navigate("ActorDetails/${cast.id}") },
                         modifier = Modifier.padding(20.dp),
                         containerColor = Color.White,
                     ) {

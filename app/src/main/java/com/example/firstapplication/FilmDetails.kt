@@ -156,23 +156,29 @@ fun MovieDetails(navController: NavController, movieID: String) {
                 }
             }
             if (movieDetails.credits.cast.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Têtes d'affiches",
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(top = 15.dp, end = 15.dp)
-                    )
+
+                    item {
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            modifier = Modifier.padding(start = 10.dp)
+                        ) {
+                        Text(
+                            text = "Têtes d'affiches",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(top = 15.dp, end = 15.dp)
+                        )
+                    }
                 }
 
-                /*      LazyVerticalGrid(
+               /*      LazyVerticalGrid(
                         columns = GridCells.Fixed(2), // 2 colonnes
-                    ) {*/
+                    ) */
 
                 items(movieDetails.credits.cast.take(10)) { cast ->
                     FloatingActionButton(
-                        onClick = { navController.navigate("DetailPerson/${cast.id}") },
+                        onClick = { navController.navigate("ActorDetails/${cast.id}") },
                         modifier = Modifier.padding(20.dp),
                         containerColor = Color.White,
                     ) {
@@ -219,7 +225,7 @@ fun MovieDetails(navController: NavController, movieID: String) {
 fun getGenres(genres: List<Genre>): String {
     var genresString = ""
     for (genre in genres) {
-        genresString += genre.name + " & "
+        genresString += genre.name + ", "
     }
     return genresString.dropLast(2)
 }

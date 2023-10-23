@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,7 +58,6 @@ fun ActorDetails(navController: NavController, actorID: String) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                 //   modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
                     // Nom de la personne
                     Text(
@@ -85,7 +85,7 @@ fun ActorDetails(navController: NavController, actorID: String) {
 
                     Box(
                         modifier = Modifier
-                            //  .fillMaxWidth()
+                            .padding(start = 15.dp, end = 15.dp)
                             .background(
                                 (Color.Black.copy(alpha = 0.2f)), // Ajustez la valeur d'alpha ici
                                 RoundedCornerShape(16.dp)
@@ -101,11 +101,13 @@ fun ActorDetails(navController: NavController, actorID: String) {
                             if (actorDetails.gender == 1) {
                                 Text(
                                     text = "Sexe : Femme",
+                                    fontSize = 18.sp,
                                     modifier = Modifier.padding(top = 5.dp, end = 5.dp)
                                 )
                             } else {
                                 Text(
                                     text = "Sexe : Homme",
+                                    fontSize = 18.sp,
                                     modifier = Modifier.padding(top = 5.dp, end = 5.dp)
                                 )
                             }
@@ -113,6 +115,7 @@ fun ActorDetails(navController: NavController, actorID: String) {
                             if (actorDetails.known_for_department != "") {
                                 Text(
                                     text = "Métier : " + actorDetails.known_for_department,
+                                    fontSize = 18.sp,
                                     modifier = Modifier.padding(top = 5.dp, end = 5.dp)
                                 )
                             }
@@ -120,14 +123,19 @@ fun ActorDetails(navController: NavController, actorID: String) {
                             var checkBirthday = false
                             if (actorDetails.birthday != null) {
                                 checkBirthday =
-                                    Pattern.matches("^\\d{4}-\\d{2}-\\d{2}\$", actorDetails.birthday)
+                                    Pattern.matches(
+                                        "^\\d{4}-\\d{2}-\\d{2}\$",
+                                        actorDetails.birthday
+                                    )
                             }
 
                             if (actorDetails.place_of_birth != "" && checkBirthday) {
                                 Text(
                                     text = "Lieu de naissance : " + actorDetails.place_of_birth,
-                                    fontStyle = FontStyle.Italic,
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 18.sp,
                                     modifier = Modifier.padding(top = 5.dp, end = 5.dp)
+
                                 )
 
                                 Text(
@@ -138,31 +146,35 @@ fun ActorDetails(navController: NavController, actorID: String) {
                                         Locale.FRANCE
                                     ),
                                     modifier = Modifier.padding(top = 5.dp),
-                                    fontSize = 15.sp
+                                    fontSize = 18.sp
                                 )
                             }
                         }
                     }
 
+                    Column(horizontalAlignment = Alignment.Start) {
 
-                    // Synopsis
-                    if (actorDetails.biography != "") {
-                        Text(
-                            text = "Biographie",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 25.sp,
-                            modifier = Modifier.padding(top = 15.dp, end = 15.dp)
-                        )
 
-                        Text(
-                            text = actorDetails.biography,
-                            textAlign = TextAlign.Justify,
-                            modifier = Modifier.padding(top = 15.dp, end = 15.dp)
-                        )
+                        // Biographie
+                        if (actorDetails.biography != "") {
+                            Text(
+                                text = "Biographie",
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 25.sp,
+                                modifier = Modifier.padding(top = 15.dp, start = 15.dp, end = 15.dp)
+                            )
+
+                            Text(
+                                text = actorDetails.biography,
+                                textAlign = TextAlign.Justify,
+                                modifier = Modifier.padding(top = 15.dp, start = 15.dp, end = 15.dp, bottom = 15.dp)
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+

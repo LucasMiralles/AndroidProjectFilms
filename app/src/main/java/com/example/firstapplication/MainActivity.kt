@@ -38,15 +38,15 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("films") {
                             // Composable for Films screen
-                            FilmScreen(navController)
+                            FilmScreen(navController, windowClass)
                         }
                         composable("series") {
                             // Composable for Films screen
-                            SerieScreen(navController)
+                            SerieScreen(navController, windowClass)
                         }
                         composable("actors") {
                             // Composable for Films screen
-                            ActorScreen(navController)
+                            ActorScreen(navController, windowClass)
                         }
                         composable("MovieDetails/{movieID}") {
                                 backStackEntry ->
